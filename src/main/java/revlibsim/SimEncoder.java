@@ -1,4 +1,4 @@
-package au.jade.revlibsim;
+package revlibsim;
 
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
