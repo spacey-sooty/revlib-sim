@@ -33,3 +33,5 @@ dependencies {
     api wpi.java.deps.wpilib() // ntcore, wpiutil (datalog, struct), wpiunits
     implementation wpi.java.vendor.java()
 }
+
+group = 'com.github.spacey-sooty'
