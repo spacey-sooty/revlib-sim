@@ -14,7 +14,6 @@ public class SimEncoder implements RelativeEncoder {
 
   private SimBoolean inverted;
   private SimDouble position;
-  private SimDouble velocity;
   private SimInt averageDepth;
   private SimInt measurementPeriod;
   private SimInt countsPerRevolution;
@@ -23,12 +22,15 @@ public class SimEncoder implements RelativeEncoder {
   private SimDouble positionConversionFactor;
   private SimDouble velocityConversionFactor;
 
+  // impl details
+  private static final double dtMinutes = 3.333333e-4; // TODO make configurable
+  private double lastPos = 0;
+
   public SimEncoder(int port) {
     impl = SimDevice.create("REVLib:CANSparkMax:Encoder", port);
 
     inverted = impl.createBoolean("inverted", Direction.kBidir, false);
     position = impl.createDouble("position", Direction.kBidir, 0);
-    velocity = impl.createDouble("velocity", Direction.kBidir, 0);
     averageDepth = impl.createInt("averageDepth", Direction.kBidir, 0);
     measurementPeriod = impl.createInt("measurementPeriod", Direction.kBidir, 20);
     countsPerRevolution = impl.createInt("countsPerRevolution", Direction.kOutput, 42);
@@ -55,17 +57,14 @@ public class SimEncoder implements RelativeEncoder {
 
   @Override
   public REVLibError setPosition(double position) {
+    lastPos = this.position.get();
     this.position.set(position);
     return REVLibError.kOk;
   }
 
   @Override
   public double getVelocity() {
-    return velocity.get();
-  }
-
-  public void setVelocity(double velocity) {
-    this.velocity.set(velocity);
+    return (position.get() - lastPos) / dtMinutes;
   }
 
   @Override
