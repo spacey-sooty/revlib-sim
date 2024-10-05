@@ -1,4 +1,4 @@
-package revlibsim;
+package au.jade.revlibsim;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
