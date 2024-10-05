@@ -21,7 +21,7 @@ public class SparkMax implements AutoCloseable, MotorController {
   private final SimDouble simSpeed;
   private final SimBoolean simInverted;
 
-  private final RelativeEncoder simEncoder;
+  private final RelativeEncoder encoder;
 
   /**
    * Create a new SparkMax.
@@ -32,14 +32,15 @@ public class SparkMax implements AutoCloseable, MotorController {
   public SparkMax(int port, CANSparkLowLevel.MotorType type) {
     if (RobotBase.isReal()) {
       rioimpl = new CANSparkMax(port, type);
+      encoder = rioimpl.getEncoder();
     } else {
       rioimpl = null;
+      encoder = new SimEncoder(port);
     }
     simMotor = SimDevice.create("REV:CANSparkMax:Motor", port);
     simSpeed = simMotor.createDouble("speed", Direction.kBidir, 0);
     simInverted = simMotor.createBoolean("inverted", Direction.kBidir, false);
 
-    simEncoder = new SimEncoder(port);
   }
 
   public double get() {
@@ -87,10 +88,7 @@ public class SparkMax implements AutoCloseable, MotorController {
   }
 
   public RelativeEncoder getEncoder() {
-    if (RobotBase.isReal()) {
-      rioimpl.getEncoder();
-    }
-    return simEncoder;
+    return encoder;
   }
 
   @Override
