@@ -28,7 +28,7 @@ public class SimEncoder implements RelativeEncoder {
 
     inverted = impl.createBoolean("inverted", Direction.kBidir, false);
     position = impl.createDouble("position", Direction.kBidir, 0);
-    velocity = impl.createDouble("velocity", Direction.kOutput, 0);
+    velocity = impl.createDouble("velocity", Direction.kBidir, 0);
     averageDepth = impl.createInt("averageDepth", Direction.kBidir, 0);
     measurementPeriod = impl.createInt("measurementPeriod", Direction.kBidir, 20);
     countsPerRevolution = impl.createInt("countsPerRevolution", Direction.kOutput, 42);
@@ -62,6 +62,10 @@ public class SimEncoder implements RelativeEncoder {
   @Override
   public double getVelocity() {
     return velocity.get();
+  }
+
+  public void setVelocity(double velocity) {
+    this.velocity.set(velocity);
   }
 
   @Override
