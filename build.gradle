@@ -34,4 +34,5 @@ dependencies {
     implementation wpi.java.vendor.java()
 }
 
-group = 'com.github.spacey-sooty'
+group = "au.jade"
+version = "2024.1.1"
